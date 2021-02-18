@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "name": "geography",
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ]
+    }
+}
