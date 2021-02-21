@@ -1,0 +1,16 @@
+mutation CreateGuild($options: GuildInput!) {
+    createGuild(options: $options) {
+        guild {
+            id
+            name
+            image
+            ownerId
+            prefix
+            session
+        }
+        errors {
+            path
+            message
+        }
+    }
+}

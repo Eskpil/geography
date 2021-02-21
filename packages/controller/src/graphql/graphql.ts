@@ -17,9 +17,23 @@ export type Guild = {
   name: Scalars['String'];
   prefix: Scalars['String'];
   ownerId: Scalars['String'];
-  plan: Scalars['Float'];
   image: Scalars['String'];
   session: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['ID'];
+  username: Scalars['String'];
+  avatar: Scalars['String'];
+  discrimiator: Scalars['String'];
+  points: Scalars['String'];
+  plan: Scalars['Float'];
+  session: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
 };
 
 export type FieldError = {
@@ -34,22 +48,38 @@ export type GuildResponse = {
   guild: Maybe<Guild>;
 };
 
+export type UserResponse = {
+  __typename?: 'UserResponse';
+  errors: Maybe<Array<FieldError>>;
+  user: Maybe<User>;
+};
+
 export type GuildInput = {
   id: Scalars['String'];
   name: Scalars['String'];
   ownerId: Scalars['String'];
   image: Scalars['String'];
-  session: Scalars['String'];
+};
+
+export type UserInput = {
+  id: Scalars['String'];
+  username: Scalars['String'];
+  avatar: Scalars['String'];
+  discrimiator: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  guilds: Array<Guild>;
+  guild: Guild;
   hello: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createGuild: GuildResponse;
+  changePrefix: Scalars['Boolean'];
+  createUser: UserResponse;
 };
 
 
@@ -57,10 +87,50 @@ export type MutationCreateGuildArgs = {
   options: GuildInput;
 };
 
+
+export type MutationChangePrefixArgs = {
+  prefix: Scalars['String'];
+};
+
+
+export type MutationCreateUserArgs = {
+  options: UserInput;
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   Hey: Scalars['String'];
 };
+
+export type CreateGuildMutationVariables = Exact<{
+  options: GuildInput;
+}>;
+
+
+export type CreateGuildMutation = (
+  { __typename?: 'Mutation' }
+  & { createGuild: (
+    { __typename?: 'GuildResponse' }
+    & { guild: Maybe<(
+      { __typename?: 'Guild' }
+      & Pick<Guild, 'id' | 'name' | 'image' | 'ownerId' | 'prefix' | 'session'>
+    )>, errors: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'path' | 'message'>
+    )>> }
+  ) }
+);
+
+export type GuildsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GuildsQuery = (
+  { __typename?: 'Query' }
+  & { guilds: Array<(
+    { __typename?: 'Guild' }
+    & Pick<Guild, 'id' | 'name' | 'image' | 'ownerId' | 'prefix' | 'session'>
+  )> }
+);
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -71,6 +141,36 @@ export type HelloQuery = (
 );
 
 
+export const CreateGuildDocument = gql`
+    mutation CreateGuild($options: GuildInput!) {
+  createGuild(options: $options) {
+    guild {
+      id
+      name
+      image
+      ownerId
+      prefix
+      session
+    }
+    errors {
+      path
+      message
+    }
+  }
+}
+    `;
+export const GuildsDocument = gql`
+    query Guilds {
+  guilds {
+    id
+    name
+    image
+    ownerId
+    prefix
+    session
+  }
+}
+    `;
 export const HelloDocument = gql`
     query Hello {
   hello

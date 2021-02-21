@@ -14,6 +14,8 @@ interface Options {
     channels: Map<string, BaseChannel>;
     approximate_member_count: number;
     approximate_presence_count: number;
+    prefix: string;
+    session: string;
 }
 
 export class Guild {
@@ -28,6 +30,8 @@ export class Guild {
     channels: Map<string, BaseChannel>;
     approximate_member_count: number;
     approximate_presence_count: number;
+    prefix: string;
+    session: string;
 
     constructor(options: Options) {
         this.id = options.id;
@@ -41,5 +45,7 @@ export class Guild {
         this.channels = options.channels;
         this.approximate_member_count = options.approximate_member_count;
         this.approximate_presence_count = options.approximate_presence_count;
+        this.prefix = options.prefix;
+        this.session = options.session;
     }
 }

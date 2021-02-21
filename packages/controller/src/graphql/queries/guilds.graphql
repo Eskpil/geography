@@ -1,0 +1,10 @@
+query Guilds {
+    guilds {
+        id
+        name
+        image
+        ownerId
+        prefix
+        session
+    }
+}

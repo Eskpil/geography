@@ -7,6 +7,7 @@ import {
     Client as UrqlClient,
     defaultExchanges,
     subscriptionExchange,
+    fetchExchange,
 } from "@urql/core";
 import ws from "ws";
 import { WSClient } from "./ws";
@@ -19,6 +20,7 @@ import { BaseChannel } from "../models/channels/BaseChannel";
 import { Guild } from "../models/guild";
 import { Emoji } from "../models/emoji";
 import { Message } from "../models/message";
+import fetch from "node-fetch";
 
 const subscriptionClient = new SubscriptionClient(
     "ws://localhost:4000/graphql",
@@ -68,12 +70,14 @@ export class Client extends EventEmitter implements IClient {
             url: "http://localhost:4000/graphql",
             exchanges: [
                 ...defaultExchanges,
+                fetchExchange,
                 subscriptionExchange({
                     forwardSubscription(operation) {
                         return subscriptionClient.request(operation);
                     },
                 }),
             ],
+            fetch: fetch as any,
         });
     }
 

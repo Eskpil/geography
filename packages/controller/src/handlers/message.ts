@@ -9,7 +9,7 @@ export default class MessageEvent extends BaseEvent {
         const guild = client.guilds.get(payload.guild_id);
         const member = guild?.members.get(payload.author.id);
         const author = client.users.get(payload.author.id);
-        const channel = guild?.channels.get(payload.channel_id);
+        const channel = client.channels.get(payload.channel_id);
 
         const message = new Message({
             ...payload,
