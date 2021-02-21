@@ -10,7 +10,7 @@
     },
     "plugins": ["import", "prettier", "@typescript-eslint"],
     "rules": {
-        "indent": ["error", 4],
+        "indent": ["error", "space"],
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "double"],
         "semi": ["error", "always"]

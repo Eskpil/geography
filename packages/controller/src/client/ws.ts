@@ -16,7 +16,7 @@ interface IWSClient {
 }
 
 export declare interface WSClient {
-    ws: WebSocket;
+    socket: WebSocket;
     token: string;
     interval: string;
     ackReceived: boolean;
@@ -25,7 +25,9 @@ export declare interface WSClient {
 
 export class WSClient implements IWSClient {
     constructor(client: Client) {
-        this.ws = new WebSocket("wss://gateway.discord.gg/?v=8&encoding=json");
+        this.socket = new WebSocket(
+            "wss://gateway.discord.gg/?v=8&encoding=json"
+        );
         this.client = client;
     }
 
@@ -47,7 +49,7 @@ export class WSClient implements IWSClient {
         this.discordConnect();
     }
     async discordConnect() {
-        const gateway = WebSocket.createWebSocketStream(this.ws, {
+        const gateway = WebSocket.createWebSocketStream(this.socket, {
             encoding: "utf8",
         });
 
@@ -83,15 +85,20 @@ export class WSClient implements IWSClient {
         });
     }
     async customConnect() {
-        console.log("Custom connect");
+        this.client.events.forEach((e) => {
+            if (e.getName().includes("api-")) {
+                e.run(this.client);
+            }
+        });
     }
     async heartbeat(interval: number) {
         return setInterval(() => {
-            this.ws.send(JSON.stringify(Heartbeat));
+            this.socket.send(JSON.stringify(Heartbeat));
         }, interval);
     }
     async identify(token: string) {
         Identify.d.token = token;
-        this.ws.send(JSON.stringify(Identify));
+        this.customConnect();
+        this.socket.send(JSON.stringify(Identify));
     }
 }

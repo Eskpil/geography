@@ -5,14 +5,22 @@
     "license": "MIT",
     "dependencies": {
         "@urql/core": "^2.0.0",
+        "axios": "^0.21.1",
         "graphql": "^15.5.0",
+        "react": "^17.0.1",
+        "subscriptions-transport-ws": "^0.9.18",
         "urql": "^2.0.1",
         "ws": "^7.4.3"
     },
     "scripts": {
-        "dev": "nodemon --exec ts-node src/index.ts"
+        "dev": "nodemon --exec ts-node src/index.ts",
+        "gen": "graphql-codegen --config codegen.yml"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "1.17.7",
+        "@graphql-codegen/typescript": "1.17.7",
+        "@graphql-codegen/typescript-operations": "1.17.7",
+        "@graphql-codegen/typescript-urql": "^2.0.0",
         "@types/node": "^14.14.28",
         "@types/ws": "^7.4.0",
         "@typescript-eslint/eslint-plugin": "^4.15.1",
